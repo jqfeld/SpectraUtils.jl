@@ -1,0 +1,13 @@
+name = "SpectraUtils"
+uuid = "98f556d0-b2f4-43fe-9416-f5e6e590498d"
+authors = ["Jan Kuhfeld <jan.kuhfeld@rub.de> and contributors"]
+version = "1.0.0-DEV"
+
+[compat]
+julia = "1.6.7"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
