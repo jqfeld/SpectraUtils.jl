@@ -67,10 +67,11 @@ Voigt(x0, sigma, gamma) = Voigt(1., x0, sigma, gamma)
 
 function (L::Voigt)(x, p=[])
   A = lineparam(L.ampl, p)
+  x0 = lineparam(L.x0, p)
   σ = lineparam(L.sigma, p)
   γ = lineparam(L.gamma, p)
   return A*real(
-    faddeeva( (x + im*γ)/σ/sqrt(2) )
+    faddeeva( ((x-x0) + im*γ)/σ/sqrt(2) )
   ) / σ / sqrt(2π)
 end
 
