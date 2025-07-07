@@ -1,3 +1,5 @@
+using SpecialFunctions
+
 abstract type LineShape end
 
 lineparam(x::Real, p) = x
@@ -49,6 +51,25 @@ function (L::VoigtApprx{A,X,T})(x, p=[]) where {A, X, T}
   f = (max(0.0, fG^5 + 2.69269 * fG^4 * fL + 2.42843 * fG^3 * fL^2 + 4.47163 * fG^2 * fL^3 + 0.07842 * fG * fL^4 + fL^5))^(1 / 5)
   η = 1.36603 * (fL / f) - 0.47719 * (fL / f)^2 + 0.11116 * (fL / f)^3
   return lineparam(L.ampl,p)*(η * lorenzian(x - μ, f / 2) + (1 - η) * gaussian(x - μ, f / (2 * sqrt(2 * log(2)))))
+end
+
+
+
+struct Voigt{A,X,T1,T2} <: LineShape
+  ampl::A
+  x0::X
+  sigma::T1
+  gamma::T2
+end
+
+Voigt(x0, sigma, gamma) = Voigt(1., x0, sigma, gamma)
+
+function (L::Voigt)(x, p=[])
+  σ = lineparam(L.sigma, p)
+  γ = lineparam(L.gamma, p)
+  return real(
+    faddeeva( (x + im*γ)/σ/sqrt(2) )
+  ) / σ / sqrt(2π)
 end
 
 # @inline σ_doppler(f0, T; m=4.65e-26) = sqrt(k * T / m / c0^2) * f0

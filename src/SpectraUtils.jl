@@ -1,7 +1,7 @@
 module SpectraUtils
 
 
-export Lorentzian, Gaussian, VoigtApprx, lineparam
+export Lorentzian, Gaussian, Voigt, VoigtApprx, lineparam
 include("./lineshapes.jl")
 
 
