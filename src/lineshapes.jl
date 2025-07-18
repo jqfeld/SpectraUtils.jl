@@ -65,6 +65,10 @@ end
 
 Voigt(x0, sigma, gamma) = Voigt(1., x0, sigma, gamma)
 
+voigt(x, σ, γ) = real(
+    faddeeva( ((x) + im*γ)/σ/sqrt(2) )
+  ) / σ / sqrt(2π)
+
 function (L::Voigt)(x, p=[])
   A = lineparam(L.ampl, p)
   x0 = lineparam(L.x0, p)
