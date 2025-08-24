@@ -25,6 +25,8 @@ struct VoigtApprx{A,X,T1,T2} <: LineShape
   gamma::T2
 end
 
+VoigtApprx(sigma::T1, gamma::T2) where {T1,T2} = VoigtApprx{nothing,nothing,T1,T2}(sigma, gamma)
+
 
 function (L::VoigtApprx)(x, p=[])
   σ = calc_param(L.sigma, p)
