@@ -3,6 +3,9 @@ module SpectraUtils
 calc_param(x::Real, _) = x
 calc_param(x::Function, p) = x(p)
 
+struct NullParameters end
+
+
 export Lorentzian, Gaussian, Voigt, VoigtApprx
 include("./lineshapes.jl")
 

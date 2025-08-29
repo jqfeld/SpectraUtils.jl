@@ -1,4 +1,4 @@
-using SpecialFunctions
+using Faddeyeva985
 
 abstract type LineShape end
 
@@ -9,7 +9,7 @@ struct Lorentzian{T} <: LineShape
 end
 
 
-(L::Lorentzian{T})(x, p=[]) where {T} = lorentzian(x, calc_param(L.hwhm, p))  
+@inline (L::Lorentzian{T})(x, p=NullParameters()) where {T} = lorentzian(x, calc_param(L.hwhm, p))  
 
 @inline gaussian(x, σ) = 1 / sqrt(2π) / σ * exp(-x^2 / 2 / σ^2)
 
@@ -17,18 +17,16 @@ struct Gaussian{T} <: LineShape
   sigma::T
 end
 
-(L::Gaussian{T})(x, p=[]) where {T} = gaussian(x, calc_param(L.sigma,p))
+(L::Gaussian{T})(x, p=NullParameters()) where {T} = gaussian(x, calc_param(L.sigma,p))
 
 
-struct VoigtApprx{A,X,T1,T2} <: LineShape
-  sigma::T1
-  gamma::T2
+struct VoigtApprx{S,G} <: LineShape
+  sigma::S
+  gamma::G
 end
 
-VoigtApprx(sigma::T1, gamma::T2) where {T1,T2} = VoigtApprx{nothing,nothing,T1,T2}(sigma, gamma)
 
-
-function (L::VoigtApprx)(x, p=[])
+function (L::VoigtApprx)(x, p=NullParameters())
   σ = calc_param(L.sigma, p)
   γ = calc_param(L.gamma, p)
 
@@ -47,11 +45,9 @@ struct Voigt{T1,T2} <: LineShape
 end
 
 
-voigt(x, σ, γ) = real(
-    faddeeva( (x + im*γ)/σ/sqrt(2) )
-  ) / σ / sqrt(2π)
+voigt(x, σ, γ) = faddeyeva( x/σ/sqrt(2) , γ/σ/sqrt(2) ) / σ / sqrt(2π)
 
-function (L::Voigt)(x, p=[])
+function (L::Voigt)(x, p=NullParameters())
   σ = calc_param(L.sigma, p)
   γ = calc_param(L.gamma, p)
   return voigt(x, σ, γ)
