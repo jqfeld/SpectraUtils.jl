@@ -1,5 +1,6 @@
 module SpectraUtils
 
+calc_param(x, p) = x(p)
 calc_param(x::Real, _) = x
 calc_param(x::Function, p) = x(p)
 
