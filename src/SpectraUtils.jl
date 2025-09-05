@@ -1,8 +1,7 @@
 module SpectraUtils
 
-calc_param(x, p) = x(p)
-calc_param(x::Real, _) = x
-calc_param(x::Function, p) = x(p)
+@inline calc_param(x::Real, _) = x
+@inline calc_param(x::Function, p) = x(p)
 
 struct NullParameters end
 
