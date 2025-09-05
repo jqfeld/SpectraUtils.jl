@@ -1,4 +1,4 @@
-using Faddeyeva985
+using SpecialFunctions
 
 abstract type LineShape end
 
@@ -45,7 +45,7 @@ struct Voigt{T1,T2} <: LineShape
 end
 
 
-@inline voigt(x, σ, γ) = faddeyeva(x / σ / sqrt(2), γ / σ / sqrt(2)) / σ / sqrt(2π)
+@inline voigt(x, σ, γ) = real(faddeeva((x+  im*γ)  / σ / sqrt(2) )) / σ / sqrt(2π)
 
 @inline (L::Voigt)(x, p=NullParameters()) =
   voigt(x, calc_param(L.sigma, p), calc_param(L.gamma, p))
