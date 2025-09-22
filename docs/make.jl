@@ -14,7 +14,11 @@ makedocs(;
     ),
     pages=[
         "Home" => "index.md",
+        "Line Shapes" => "lineshapes.md",
+        "Line Models" => "lines.md",
+        "Linewidth Estimates" => "linewidths.md",
     ],
+    warnonly=[:docs_block],
 )
 
 deploydocs(;
