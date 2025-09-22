@@ -1,30 +1,54 @@
 using SpecialFunctions
 
+"""Abstract supertype for supported line-shape models."""
 abstract type LineShape end
 
+"""Evaluate the Lorentzian profile with half-width at half-maximum `γ`."""
 @inline lorentzian(x, γ) = γ / π / (γ^2 + x^2)
 
+"""
+    Lorentzian(hwhm)
+
+Callable representation of a Lorentzian profile with half-width at
+half-maximum `hwhm`. Invoke the object as `shape(x, p)` to evaluate the
+profile at offset `x`, optionally resolving `hwhm` from a parameter set `p`.
+"""
 struct Lorentzian{T} <: LineShape
   hwhm::T
 end
 
+@inline (L::Lorentzian{T})(x, p=NullParameters()) where {T} =
+  lorentzian(x, calc_param(L.hwhm, p))
 
-@inline (L::Lorentzian{T})(x, p=NullParameters()) where {T} = lorentzian(x, calc_param(L.hwhm, p))
-
+"""Evaluate the Gaussian profile with standard deviation `σ`."""
 @inline gaussian(x, σ) = 1 / sqrt(2π) / σ * exp(-x^2 / 2 / σ^2)
 
+"""
+    Gaussian(sigma)
+
+Callable representation of a Gaussian profile with standard deviation
+`sigma`. Call `shape(x, p)` to evaluate the profile at offset `x`, resolving
+`sigma` from `p` when it is provided as a function.
+"""
 struct Gaussian{T} <: LineShape
   sigma::T
 end
 
-@inline (L::Gaussian{T})(x, p=NullParameters()) where {T} = gaussian(x, calc_param(L.sigma, p))
+@inline (L::Gaussian{T})(x, p=NullParameters()) where {T} =
+  gaussian(x, calc_param(L.sigma, p))
 
+"""
+    VoigtApprx(sigma, gamma)
 
+Pseudo-Voigt approximation that blends Gaussian and Lorentzian profiles with
+standard deviation `sigma` and half-width at half-maximum `gamma`. Evaluate
+instances as `shape(x, p)` to compute the approximated Voigt profile at
+offset `x`.
+"""
 struct VoigtApprx{S,G} <: LineShape
   sigma::S
   gamma::G
 end
-
 
 function (L::VoigtApprx)(x, p=NullParameters())
   σ = calc_param(L.sigma, p)
@@ -38,15 +62,21 @@ function (L::VoigtApprx)(x, p=NullParameters())
 end
 
 
-
 struct Voigt{T1,T2} <: LineShape
   sigma::T1
   gamma::T2
 end
 
+"""Evaluate the full Voigt profile for standard deviation `σ` and `γ`."""
+@inline voigt(x, σ, γ) = real(faddeeva((x + im * γ) / σ / sqrt(2))) / σ / sqrt(2π)
 
-@inline voigt(x, σ, γ) = real(faddeeva((x+  im*γ)  / σ / sqrt(2) )) / σ / sqrt(2π)
+"""
+    Voigt(sigma, gamma)
 
+Callable representation of the full Voigt profile with standard deviation
+`sigma` and Lorentzian half-width `gamma`. Evaluate using `shape(x, p)` to
+compute the line shape at offset `x`, resolving stored parameters from `p`
+when they are provided as callables.
+"""
 @inline (L::Voigt)(x, p=NullParameters()) =
   voigt(x, calc_param(L.sigma, p), calc_param(L.gamma, p))
-
