@@ -34,16 +34,6 @@ using QuadGK
         end
     end
     
-    @testset "Parameter dependence" begin
-        L_const = Lorentzian(2.0)
-        L_func = Lorentzian(p -> p[1])
-        
-        @test L_const(1.0) ≈ L_func(1.0, [2.0]) atol=1e-12
-        
-        @test L_func(0.0, [1.0]) ≈ 1 / π atol=1e-10
-        @test L_func(0.0, [0.5]) ≈ 2 / π atol=1e-10
-    end
-    
     @testset "Different parameter types" begin
         L_int = Lorentzian(1)
         L_float = Lorentzian(1.0)

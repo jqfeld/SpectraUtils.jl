@@ -33,16 +33,6 @@ using QuadGK
         end
     end
     
-    @testset "Parameter dependence" begin
-        VA_const = VoigtApprx(2.0, 1.0)
-        VA_func = VoigtApprx(p -> p[1], p -> p[2])
-        
-        @test VA_const(1.0) ≈ VA_func(1.0, [2.0, 1.0]) atol=1e-12
-        
-        @test VA_func(0.0, [1.0, 0.5]) > 0
-        @test VA_func(0.0, [0.5, 0.25]) > VA_func(0.0, [1.0, 0.5])
-    end
-    
     @testset "Different parameter types" begin
         VA_mixed = VoigtApprx(1.0, 1)
         VA_float = VoigtApprx(1.0, 1.0)

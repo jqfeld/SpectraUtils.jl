@@ -17,11 +17,9 @@ struct Lorentzian{T} <: LineShape
   hwhm::T
 end
 
-@inline (L::Lorentzian{T})(x, p=NullParameters()) where {T} =
-  lorentzian(x, calc_param(L.hwhm, p))
+@inline lorentzian(x, γ) = γ / π / (γ^2 + x^2)
+@inline (L::Lorentzian{T})(x) where {T} = lorentzian(x,L.hwhm)
 
-"""Evaluate the Gaussian profile with standard deviation `σ`."""
-@inline gaussian(x, σ) = 1 / sqrt(2π) / σ * exp(-x^2 / 2 / σ^2)
 
 """
     Gaussian(sigma)
@@ -34,8 +32,9 @@ struct Gaussian{T} <: LineShape
   sigma::T
 end
 
-@inline (L::Gaussian{T})(x, p=NullParameters()) where {T} =
-  gaussian(x, calc_param(L.sigma, p))
+"""Evaluate the Gaussian profile with standard deviation `σ`."""
+@inline gaussian(x, σ) = 1 / sqrt(2π) / σ * exp(-x^2 / 2 / σ^2)
+@inline (L::Gaussian{T})(x) where {T} = gaussian(x,L.sigma)
 
 """
     VoigtApprx(sigma, gamma)
@@ -51,8 +50,8 @@ struct VoigtApprx{S,G} <: LineShape
 end
 
 function (L::VoigtApprx)(x, p=NullParameters())
-  σ = calc_param(L.sigma, p)
-  γ = calc_param(L.gamma, p)
+  σ = L.sigma
+  γ = L.gamma
 
   fG = 2 * sqrt(2 * log(2)) * σ
   fL = 2 * γ
@@ -70,6 +69,7 @@ end
 """Evaluate the full Voigt profile for standard deviation `σ` and `γ`."""
 @inline voigt(x, σ, γ) = real(faddeeva((x + im * γ) / σ / sqrt(2))) / σ / sqrt(2π)
 
+
 """
     Voigt(sigma, gamma)
 
@@ -78,5 +78,6 @@ Callable representation of the full Voigt profile with standard deviation
 compute the line shape at offset `x`, resolving stored parameters from `p`
 when they are provided as callables.
 """
-@inline (L::Voigt)(x, p=NullParameters()) =
-  voigt(x, calc_param(L.sigma, p), calc_param(L.gamma, p))
+@inline (L::Voigt)(x) =
+  voigt(x, L.sigma, L.gamma)
+

@@ -34,15 +34,6 @@ using SpecialFunctions
     end
   end
 
-  @testset "Parameter dependence" begin
-    V_const = Voigt(2.0, 1.0)
-    V_func = Voigt(p -> p[1], p -> p[2])
-
-    @test V_const(1.0) ≈ V_func(1.0, [2.0, 1.0]) atol = 1e-12
-
-    @test V_func(0.0, [1.0, 0.5]) > 0
-    @test V_func(0.0, [0.5, 0.25]) > V_func(0.0, [1.0, 0.5])
-  end
 
   @testset "Different parameter types" begin
     V_mixed = Voigt(1.0, 1)

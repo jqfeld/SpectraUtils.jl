@@ -8,18 +8,18 @@ parameter set when the line is evaluated. Call the resulting object as
 broadcast over a vector of positions.
 """
 struct Line{A,P,LS}
-  amplitude::A
   position::P
+  amplitude::A
   shape::LS
 end
 
-@inline (l::Line{A,P,LS})(x, p=NullParameters()) where {A,P,LS} =
-  calc_param(l.amplitude, p) * l.shape(x - calc_param(l.position, p), p)
 
-function (l::Line{A,P,LS})(xs::Vector{X}, p=NullParameters()) where {A,P,LS,X}
-  out = zeros(typeof(l(xs[1], p)), length(xs))
+@inline (l::Line{A,P,LS})(x) where {A,P,LS} = l.amplitude * l.shape(x - l.position)
+
+function (l::Line{A,P,LS})(xs::Vector{X}) where {A,P,LS,X}
+  out = zeros(typeof(l(xs[1])), length(xs))
   @simd for i in eachindex(xs)
-    out[i] = calc_param(l.amplitude, p) * l.shape(xs[i] - calc_param(l.position, p), p)
+    out[i] = l.amplitude * l.shape(xs[i] - l.position)
   end
   return out
 end

@@ -34,15 +34,6 @@ using QuadGK
         end
     end
     
-    @testset "Parameter dependence" begin
-        g_const = Gaussian(2.0)
-        g_func = Gaussian(p -> p[1])
-        
-        @test g_const(1.0) ≈ g_func(1.0, [2.0]) atol=1e-12
-        
-        @test g_func(0.0, [1.0]) ≈ 1 / sqrt(2π) atol=1e-10
-        @test g_func(0.0, [0.5]) ≈ 2 / sqrt(2π) atol=1e-10
-    end
     
     @testset "Different parameter types" begin
         g_int = Gaussian(1)
