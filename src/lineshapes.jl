@@ -3,20 +3,19 @@ using SpecialFunctions
 """Abstract supertype for supported line-shape models."""
 abstract type LineShape end
 
-"""Evaluate the Lorentzian profile with half-width at half-maximum `γ`."""
-@inline lorentzian(x, γ) = γ / π / (γ^2 + x^2)
 
 """
     Lorentzian(hwhm)
 
 Callable representation of a Lorentzian profile with half-width at
-half-maximum `hwhm`. Invoke the object as `shape(x, p)` to evaluate the
-profile at offset `x`, optionally resolving `hwhm` from a parameter set `p`.
+half-maximum `hwhm`. Invoke the object as `shape(x)` to evaluate the
+profile at offset `x`.
 """
 struct Lorentzian{T} <: LineShape
   hwhm::T
 end
 
+"""Evaluate the Lorentzian profile with half-width at half-maximum `γ`."""
 @inline lorentzian(x, γ) = γ / π / (γ^2 + x^2)
 @inline (L::Lorentzian{T})(x) where {T} = lorentzian(x,L.hwhm)
 
@@ -25,8 +24,7 @@ end
     Gaussian(sigma)
 
 Callable representation of a Gaussian profile with standard deviation
-`sigma`. Call `shape(x, p)` to evaluate the profile at offset `x`, resolving
-`sigma` from `p` when it is provided as a function.
+`sigma`. Call `shape(x)` to evaluate the profile at offset `x`.
 """
 struct Gaussian{T} <: LineShape
   sigma::T
@@ -41,7 +39,7 @@ end
 
 Pseudo-Voigt approximation that blends Gaussian and Lorentzian profiles with
 standard deviation `sigma` and half-width at half-maximum `gamma`. Evaluate
-instances as `shape(x, p)` to compute the approximated Voigt profile at
+instances as `shape(x)` to compute the approximated Voigt profile at
 offset `x`.
 """
 struct VoigtApprx{S,G} <: LineShape
@@ -74,9 +72,8 @@ end
     Voigt(sigma, gamma)
 
 Callable representation of the full Voigt profile with standard deviation
-`sigma` and Lorentzian half-width `gamma`. Evaluate using `shape(x, p)` to
-compute the line shape at offset `x`, resolving stored parameters from `p`
-when they are provided as callables.
+`sigma` and Lorentzian half-width `gamma`. Evaluate using `shape(x)` to
+compute the line shape at offset `x`.
 """
 @inline (L::Voigt)(x) =
   voigt(x, L.sigma, L.gamma)
