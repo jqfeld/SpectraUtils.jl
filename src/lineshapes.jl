@@ -47,7 +47,7 @@ struct VoigtApprx{S,G} <: LineShape
   gamma::G
 end
 
-function (L::VoigtApprx)(x, p=NullParameters())
+function (L::VoigtApprx)(x)
   σ = L.sigma
   γ = L.gamma
 
