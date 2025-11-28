@@ -29,7 +29,7 @@ accept optional parameter bundles default to `NullParameters()`.
 struct NullParameters end
 
 
-export Lorentzian, Gaussian, Voigt, VoigtApprx
+export Lorentzian, Gaussian, Voigt, VoigtApprx, DopplerFree
 include("./lineshapes.jl")
 
 export Line

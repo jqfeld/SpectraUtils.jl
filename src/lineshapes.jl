@@ -78,3 +78,23 @@ compute the line shape at offset `x`.
 @inline (L::Voigt)(x) =
   voigt(x, L.sigma, L.gamma)
 
+
+
+"""
+    DopplerFree(depth, envelop, dip)
+
+Callable representation of a Doppler-free spectral profile. The resulting
+shape multiplies a broad envelope `envelop(x)` by a saturation dip,
+returning `envelop(x) * (1 - depth * dip(x))` when evaluated. The `envelop`
+and `dip` arguments can be any callable line-shape models (for example,
+`Gaussian` or `Lorentzian`).
+"""
+struct DopplerFree{D,L1,L2} <: LineShape
+  depth::D
+  envelop::L1
+  dip::L2
+end
+
+@inline (L::DopplerFree)(x) = 
+  L.envelop(x) * (1 - L.depth*L.dip(x))
+
