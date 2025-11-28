@@ -80,6 +80,15 @@ compute the line shape at offset `x`.
 
 
 
+"""
+    DopplerFree(depth, envelop, dip)
+
+Callable representation of a Doppler-free spectral profile. The resulting
+shape multiplies a broad envelope `envelop(x)` by a saturation dip,
+returning `envelop(x) * (1 - depth * dip(x))` when evaluated. The `envelop`
+and `dip` arguments can be any callable line-shape models (for example,
+`Gaussian` or `Lorentzian`).
+"""
 struct DopplerFree{D,L1,L2} <: LineShape
   depth::D
   envelop::L1
