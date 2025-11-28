@@ -16,6 +16,10 @@ end
   include("test_voigt_approx.jl")
 end
 
+@safetestset "DopplerFree Line Shape" begin
+  include("test_dopplerfree.jl")
+end
+
 @safetestset "Chainrules" begin
   include("chainrules.jl")
 end
