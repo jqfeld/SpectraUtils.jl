@@ -78,3 +78,14 @@ compute the line shape at offset `x`.
 @inline (L::Voigt)(x) =
   voigt(x, L.sigma, L.gamma)
 
+
+
+struct DopplerFree{D,L1,L2} <: LineShape
+  depth::D
+  envelop::L1
+  dip::L2
+end
+
+@inline (L::DopplerFree)(x) = 
+  L.envelop(x) * (1 - L.depth*L.dip(x))
+
