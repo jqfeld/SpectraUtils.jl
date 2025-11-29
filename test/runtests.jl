@@ -16,6 +16,10 @@ end
   include("test_voigt_approx.jl")
 end
 
+@safetestset "Smith Line Shape" begin
+  include("test_smith.jl")
+end
+
 @safetestset "DopplerFree Line Shape" begin
   include("test_dopplerfree.jl")
 end
