@@ -12,6 +12,7 @@ functions that resolve parameters at evaluation time.
 - [`Voigt`](@ref SpectraUtils.Voigt)
 - [`VoigtApprx`](@ref SpectraUtils.VoigtApprx)
 - [`DopplerFree`](@ref SpectraUtils.DopplerFree)
+- [`Smith`](@ref SpectraUtils.Smith)
 - [`lorentzian`](@ref SpectraUtils.lorentzian)
 - [`gaussian`](@ref SpectraUtils.gaussian)
 - [`voigt`](@ref SpectraUtils.voigt)
@@ -47,3 +48,13 @@ shape = DopplerFree(0.2, envelop, dip)
 shape(0.0)         # central dip on top of the envelope
 shape(0.1)
 ```
+
+## Smith line profile
+
+The `Smith` profile models cross-relaxation broadening following the
+formulation of Smith et al. (Phys. Rev. Lett. 26, 740). It blends a Lorentzian
+envelope with a Doppler-broadened Gaussian core while enforcing unit
+normalization so that the total integrated area is one. The `cross_relaxation`
+parameter controls the relative weight of the Gaussian component, with
+`cross_relaxation = 0` yielding the pure Lorentzian-derived term and
+`cross_relaxation = 1` reducing to the Gaussian profile `gaussian(x, sigma)`.
