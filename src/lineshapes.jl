@@ -99,6 +99,25 @@ end
   L.envelop(x) * (1 - L.depth*L.dip(x))
 
 
+"""
+    Smith(cross_relaxation, sigma, gamma)
+
+Cross-relaxation–broadened line shape following Smith et al.
+([Phys. Rev. Lett. 26, 740](https://doi.org/10.1103/PhysRevLett.26.740)).
+The profile smoothly blends a normalized Lorentzian–Gaussian product with a
+Gaussian term according to the dimensionless cross-relaxation factor
+`cross_relaxation ∈ [0, 1]`:
+
+```
+(1 - c) * e^{-(γ/2σ)^2}/erfc(γ/2σ) * (γ/π)/(x^2 + γ^2) * e^{-x^2/4σ^2}
+  + c * Gaussian(x, σ)
+```
+
+The parameters are the Gaussian standard deviation `sigma`, the Lorentzian
+half-width at half-maximum `gamma`, and the mixing factor `cross_relaxation`.
+The analytic prefactor ensures the profile integrates to one for any
+parameter values.
+"""
 struct Smith{T1,T2,T3} <: LineShape
   cross_relaxation::T1
   sigma::T2
