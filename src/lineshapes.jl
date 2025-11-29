@@ -98,3 +98,14 @@ end
 @inline (L::DopplerFree)(x) = 
   L.envelop(x) * (1 - L.depth*L.dip(x))
 
+
+struct Smith{T1,T2,T3} <: LineShape
+  cross_relaxation::T1
+  sigma::T2
+  gamma::T3
+end
+
+@inline (L::Smith)(x) =
+  (1 - L.cross_relaxation)*exp(-(L.gamma/2/L.sigma)^2)/erfc(L.gamma/2/L.sigma) *
+  L.gamma/pi /(x^2 + L.gamma^2) * exp(-x^2/4/L.sigma^2) +
+  L.cross_relaxation * gaussian(x, L.sigma)
