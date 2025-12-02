@@ -8,25 +8,6 @@ linewidths from physical conditions.
 """
 module SpectraUtils
 
-"""
-    calc_param(value, params)
-
-Evaluate a parameter specification `value` with the supplied `params`.
-
-If `value` is a number it is returned unchanged. When `value` is a function it
-is called with `params` to obtain the numerical parameter value. This helper
-allows a `Line` to combine fixed and parameterised quantities.
-"""
-@inline calc_param(x::Real, _) = x
-@inline calc_param(x::Function, p) = x(p)
-
-"""
-    NullParameters
-
-A sentinel struct used when no external parameter set is required. Methods that
-accept optional parameter bundles default to `NullParameters()`.
-"""
-struct NullParameters end
 
 
 export Lorentzian, Gaussian, Voigt, VoigtApprx, DopplerFree, Smith

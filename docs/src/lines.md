@@ -8,8 +8,6 @@ conditions.
 ## Types and helpers
 
 - [`Line`](@ref SpectraUtils.Line)
-- [`calc_param`](@ref SpectraUtils.calc_param)
-- [`NullParameters`](@ref SpectraUtils.NullParameters)
 
 ## Usage example
 

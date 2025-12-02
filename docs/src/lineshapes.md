@@ -24,12 +24,9 @@ using SpectraUtils
 
 shape = Voigt(0.01, 0.002)
 shape(0.0)              # peak amplitude at line centre
-shape(0.03, NullParameters())
+shape(0.03)
 ```
 
-Passing `NullParameters()` is optional when the stored parameters are constants,
-but it highlights how the same shape can be reused with external parameter
-bundles.
 
 ## Doppler-free composites
 
