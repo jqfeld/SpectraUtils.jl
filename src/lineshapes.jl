@@ -126,5 +126,5 @@ end
 
 @inline (L::Smith)(x) =
   (1 - L.cross_relaxation)*exp(-(L.gamma/2/L.sigma)^2)/erfc(abs(L.gamma/2/L.sigma)) *
-  L.gamma/pi /(x^2 + L.gamma^2) * exp(-x^2/4/L.sigma^2) +
+  abs(L.gamma)/pi /(x^2 + L.gamma^2) * exp(-x^2/4/L.sigma^2) +
   L.cross_relaxation * gaussian(x, L.sigma)

@@ -9,8 +9,15 @@ struct TuringFit{F,P,S}
   params::P
   sigma::S
 end
-
 TuringFit(func, params) = TuringFit(func,params, Gamma(1,0.5))
+
+
+struct LevenbergMarquardtFit{F,P,S}
+  func::F
+  params::P
+  sigma::S
+end
+LevenbergMarquardtFit(func, params) = LevenbergMarquardtFit(func,params, Gamma(1,0.5))
 
 struct FitResult{P,S,R}
   params::P
