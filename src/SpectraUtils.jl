@@ -42,7 +42,7 @@ export Spectrum
 include("./spectrum.jl")
 
 export fit_spectrum, FitResult
-export TuringFit 
+export TuringFit, LevenbergMarquardtFit
 include("./fitting.jl")
 
 end
