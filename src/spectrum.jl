@@ -5,7 +5,7 @@ end
 
 Spectrum(lines) = Spectrum(lines, nothing)
 
-function (spec::Spectrum)(x::T) where T<:Real
+function (spec::Spectrum)(x::X) where X<:Real
   ret = spec.background(x)
   for line in spec.lines
     ret += line(x)
@@ -22,7 +22,7 @@ function (spec::Spectrum)(x)
 end
 
 
-function (spec::Spectrum{T,Nothing})(x::X) where {T, X<:Number}
+function (spec::Spectrum{T,Nothing})(x::X) where {T, X<:Real}
   ret = spec.lines[1](x)
   for line in spec.lines[2:end]
     ret += line(x)

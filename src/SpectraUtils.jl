@@ -41,5 +41,8 @@ include("./linewidths.jl")
 export Spectrum
 include("./spectrum.jl")
 
+export fit_spectrum, FitResult
+export TuringFit 
+include("./fitting.jl")
 
 end
