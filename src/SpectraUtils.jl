@@ -38,5 +38,8 @@ include("./line.jl")
 export sigma_doppler, gamma_hard_sphere
 include("./linewidths.jl")
 
+export Spectrum
+include("./spectrum.jl")
+
 
 end
