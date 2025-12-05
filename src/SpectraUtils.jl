@@ -24,6 +24,9 @@ include("./spectrum.jl")
 
 export fit_spectrum, FitResult
 export TuringFit, LevenbergMarquardtFit
+
+using StatsAPI: coef, dof, nobs, rss, stderror, weights, residuals
+
 include("./fitting.jl")
 
 end
