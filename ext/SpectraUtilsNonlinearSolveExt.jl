@@ -11,21 +11,6 @@ regularization_term(d, x) = error("Regularization term not defined for prior dis
 regularization_term(d::Normal, x) = (x - d.μ)/d.σ 
 regularization_term(d::Uniform, x) = d.a <= x <= d.b ? 0. : Inf 
 
-function (lm_model::LevenbergMarquardtFit)(xs, ys, sigmas)
-  # Priors
-
-  function resid(p, _)
-    pars = (; (keys(lm_model.params) .=> p[1:end])...)
-    R = [
-      (ys .- lm_model.func(pars)(xs)) ./ sigmas ; 
-      [regularization_term(lm_model.params[k], pars[k]) for k in keys(filter(x -> x isa Distribution, lm_model.params))]
-    ]
-    R
-  end
-  prob = NonlinearLeastSquaresProblem(
-    NonlinearFunction(resid), [a for a in _namedtuple_statfunc(lm_model.params, mean)] ;)
-
-end
 
 function (lm_model::LevenbergMarquardtFit)(xs, ys)
   # Priors
@@ -60,6 +45,23 @@ function fit_spectrum(lm_model::LevenbergMarquardtFit, xs, ys;)
   return FitResult((; (keys(lm_model.params) .=> Normal.(sol.u, std_fit))...), sol.resid, nothing)
 end
 
+
+function (lm_model::LevenbergMarquardtFit)(xs, ys, sigmas)
+  # Priors
+
+  function resid(p, _)
+    pars = (; (keys(lm_model.params) .=> p[1:end])...)
+    R = [
+      (ys .- lm_model.func(pars)(xs)) ./ sigmas ; 
+      [regularization_term(lm_model.params[k], pars[k]) for k in keys(filter(x -> x isa Distribution, lm_model.params))]
+    ]
+    R
+  end
+  prob = NonlinearLeastSquaresProblem(
+    NonlinearFunction(resid), [a for a in _namedtuple_statfunc(lm_model.params, mean)] ;)
+
+end
+
 function fit_spectrum(lm_model::LevenbergMarquardtFit, xs, ys, sigmas;)
   prob =  lm_model(xs,ys, sigmas)
   sol = solve(prob, LevenbergMarquardt(; disable_geodesic=Val(true), autodiff=AutoForwardDiff()),)
@@ -73,7 +75,7 @@ function fit_spectrum(lm_model::LevenbergMarquardtFit, xs, ys, sigmas;)
 
   std_fit = sqrt.(abs.(diag(pinv(H))))
 
-  return FitResult((; (keys(lm_model.params) .=> Normal.(sol.u, std_fit))...), sol.resid[1:end-length(sol.u)] * sigmas, sigmas)
+  return FitResult((; (keys(lm_model.params) .=> Normal.(sol.u, std_fit))...), sol.resid[1:end-length(filter(x -> x isa Distribution, lm_model.params))] .* sigmas, sigmas)
 end
 
 end
