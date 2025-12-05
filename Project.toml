@@ -35,7 +35,7 @@ QuadGK = "2.11.2"
 Random = "1.11.0"
 SpecialFunctions = "2.5.1"
 Statistics = "1.11.1"
-Turing = "0.41.4"
+Turing = "0.41.4, 0.42"
 julia = "1.6.7"
 
 [extras]
