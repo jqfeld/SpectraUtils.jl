@@ -25,5 +25,9 @@ end
 end
 
 @safetestset "Chainrules" begin
-  include("chainrules.jl")
+  include("test_chainrules.jl")
+end
+
+@safetestset "Fitting methods" begin
+  include("test_fitting.jl")
 end
