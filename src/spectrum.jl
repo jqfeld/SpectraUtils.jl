@@ -1,3 +1,14 @@
+"""
+    Spectrum(lines, background=nothing)
+
+Bundle a collection of spectral `lines` with an optional `background` term into
+one callable model. When a background function is provided, evaluations return
+the sum of all line profiles and the background at the queried position; when
+`background` is `nothing`, only the line contributions are returned.
+
+Both scalar and array inputs are supported. The specialized methods ensure fast
+evaluation in tight fitting loops by avoiding unnecessary allocations.
+"""
 struct Spectrum{T,B}
   lines::T
   background::B
