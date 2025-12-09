@@ -9,7 +9,7 @@ line profiles. The package combines analytic line-shape functions, a convenient
 `Line` container, and physical helper formulas for estimating linewidths.
 
 ```@contents
-Pages = ["lineshapes.md", "lines.md", "linewidths.md"]
+Pages = ["lineshapes.md", "lines.md", "spectra.md", "fitting.md", "linewidths.md"]
 Depth = 2
 ```
 
