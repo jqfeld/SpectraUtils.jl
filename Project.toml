@@ -17,8 +17,8 @@ StatsAPI = "82ae8749-77ed-4fe6-ae5f-f523153014b0"
 ChainRulesCore = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
 ComponentArrays = "b0b7db55-cfe3-40fc-9ded-d10e2dbeff66"
 MonteCarloMeasurements = "0987c9cc-fe09-11e8-30f0-b96dd679fdca"
-Turing = "fce5fe82-541a-59a6-adf8-730c64b5f9a0"
 NonlinearSolve = "8913a72c-1f9b-4ce2-8d82-65094dcecaec"
+Turing = "fce5fe82-541a-59a6-adf8-730c64b5f9a0"
 
 [extensions]
 SpectraUtilsChainRulesCoreExt = "ChainRulesCore"
@@ -39,7 +39,7 @@ Random = "1.11.0"
 SpecialFunctions = "2.5.1"
 Statistics = "1.11.1"
 StatsAPI = "1.8.0"
-Turing = "0.41.4"
+Turing = "0.41.4, 0.42"
 julia = "1.6.7"
 
 [extras]
@@ -47,12 +47,12 @@ ChainRulesCore = "d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4"
 ChainRulesTestUtils = "cdddcdb0-9152-4a09-a978-84456f9df70a"
 ComponentArrays = "b0b7db55-cfe3-40fc-9ded-d10e2dbeff66"
 MonteCarloMeasurements = "0987c9cc-fe09-11e8-30f0-b96dd679fdca"
+NonlinearSolve = "8913a72c-1f9b-4ce2-8d82-65094dcecaec"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 SafeTestsets = "1bc83da4-3b8d-516f-aca4-4fe02f6d838f"
 SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 Turing = "fce5fe82-541a-59a6-adf8-730c64b5f9a0"
-NonlinearSolve = "8913a72c-1f9b-4ce2-8d82-65094dcecaec"
 
 [targets]
 test = ["SafeTestsets", "Test", "SpecialFunctions", "ChainRulesCore", "ChainRulesTestUtils", "Random", "Turing", "NonlinearSolve"]
